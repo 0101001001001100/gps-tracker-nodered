@@ -2,10 +2,94 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Suivi GPS - Raphaël Leroi</title>
+  <title>Status GPS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding-bottom: 50px; /* espace pour la barre */
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+    }
+
+    .status-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #222;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+      font-size: 14px;
+      box-shadow: 0 -1px 3px rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-item i {
+      color: #1db954;
+    }
+  </style>
+
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1>Position en direct</h1>
-  <p><a href="/worldmap" target="_blank">Accéder à la carte</a></p>
+
+<!-- Contenu principal -->
+<h1 style="text-align: center; margin-top: 40px;">Carte GPS Raphaël</h1>
+<p style="text-align: center;">Votre position est affichée en direct ci-dessous.</p>
+
+<!-- Barre d'information -->
+<div class="status-bar">
+  <div class="status-item" title="Nom"><i class="fas fa-user"></i> <span id="name">—</span></div>
+  <div class="status-item" title="Vitesse"><i class="fas fa-tachometer-alt"></i> <span id="speed">—</span></div>
+  <div class="status-item" title="Altitude"><i class="fas fa-mountain"></i> <span id="altitude">—</span></div>
+  <div class="status-item" title="Signal"><i class="fas fa-signal"></i> <span id="signal">—</span></div>
+  <div class="status-item" title="Précision"><i class="fas fa-crosshairs"></i> <span id="accuracy">—</span></div>
+  <div class="status-item" title="Batterie"><i class="fas fa-battery-half"></i> <span id="battery">—</span></div>
+  <div class="status-item" title="Heure"><i class="fas fa-clock"></i> <span id="timestamp">—</span></div>
+  <div class="status-item" title="Connexion"><i class="fas fa-wifi"></i> <span id="network">—</span></div>
+</div>
+
+<!-- Script de mise à jour dynamique -->
+<script>
+  // Exemple de données simulées — à remplacer par des données dynamiques
+  const gpsData = {
+    name: "Raphaël",
+    speed: "22 km/h",
+    altitude: "38 m",
+    signal: "Fort",
+    accuracy: "±5 m",
+    battery: "85%",
+    timestamp: new Date().toLocaleTimeString(),
+    network: "4G"
+  };
+
+  // Fonction de mise à jour de la barre
+  function updateStatus(data) {
+    document.getElementById('name').textContent = data.name;
+    document.getElementById('speed').textContent = data.speed;
+    document.getElementById('altitude').textContent = data.altitude;
+    document.getElementById('signal').textContent = data.signal;
+    document.getElementById('accuracy').textContent = data.accuracy;
+    document.getElementById('battery').textContent = data.battery;
+    document.getElementById('timestamp').textContent = data.timestamp;
+    document.getElementById('network').textContent = data.network;
+  }
+
+  // Appel initial
+  updateStatus(gpsData);
+
+  // TODO : Connecter ici une API ou WebSocket pour mise à jour en live
+</script>
+
 </body>
 </html>
