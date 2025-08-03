@@ -1,0 +1,45 @@
+[
+  {
+    "id": "http_in",
+    "type": "http in",
+    "z": "main",
+    "name": "Entrée GPS",
+    "url": "/position",
+    "method": "post",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 120,
+    "y": 100,
+    "wires": [["format"]]
+  },
+  {
+    "id": "format",
+    "type": "function",
+    "z": "main",
+    "name": "Format pour Worldmap",
+    "func": "msg.payload = {
+    name: msg.payload.tid || "Raphaël",
+    lat: msg.payload.lat,
+    lon: msg.payload.lon
+};
+return msg;",
+    "outputs": 1,
+    "x": 340,
+    "y": 100,
+    "wires": [["worldmap"]]
+  },
+  {
+    "id": "worldmap",
+    "type": "worldmap",
+    "z": "main",
+    "name": "Carte",
+    "lat": "",
+    "lon": "",
+    "zoom": "",
+    "layer": "OSMC",
+    "path": "/worldmap",
+    "x": 580,
+    "y": 100,
+    "wires": []
+  }
+]
