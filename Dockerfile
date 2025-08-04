@@ -17,15 +17,6 @@ RUN npm install \
 COPY flows.json /data/flows.json
 COPY settings.js /data/settings.js
 
-# Dossier uibuilder
-RUN mkdir -p /data/uibuilder/gpsmap
-
-# Copier les fichiers de l’UI
-COPY uibuilder/index.html /data/uibuilder/gpsmap/index.html
-COPY uibuilder/index.css /data/uibuilder/gpsmap/index.css
-COPY uibuilder/index.js /data/uibuilder/gpsmap/index.js
-COPY uibuilder/script.js /data/uibuilder/gpsmap/script.js
-
 # Port exposé pour Node-RED
 EXPOSE 1880
 
