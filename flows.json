@@ -1,45 +1,183 @@
 [
-  {
-    "id": "http_in",
-    "type": "http in",
-    "z": "main",
-    "name": "Entrée GPS",
-    "url": "/position",
-    "method": "post",
-    "upload": false,
-    "swaggerDoc": "",
-    "x": 120,
-    "y": 100,
-    "wires": [["format"]]
-  },
-  {
-    "id": "format",
-    "type": "function",
-    "z": "main",
-    "name": "Format pour Worldmap",
-    "func": "msg.payload = {
-    name: msg.payload.tid || "Raphaël",
-    lat: msg.payload.lat,
-    lon: msg.payload.lon
-};
-return msg;",
-    "outputs": 1,
-    "x": 340,
-    "y": 100,
-    "wires": [["worldmap"]]
-  },
-  {
-    "id": "worldmap",
-    "type": "worldmap",
-    "z": "main",
-    "name": "Carte",
-    "lat": "",
-    "lon": "",
-    "zoom": "",
-    "layer": "OSMC",
-    "path": "/worldmap",
-    "x": 580,
-    "y": 100,
-    "wires": []
-  }
+    {
+        "id": "3e80f3ea8716bc5c",
+        "type": "group",
+        "z": "f6f2187d.f17ca8",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "http_in_1",
+            "json_1",
+            "function_1",
+            "worldmap_1",
+            "http_response_1",
+            "357a56bf21832267",
+            "5dd32f6d870b5960",
+            "c870680d70e4dbf0"
+        ],
+        "x": 34,
+        "y": 79,
+        "w": 832,
+        "h": 222
+    },
+    {
+        "id": "http_in_1",
+        "type": "http in",
+        "z": "f6f2187d.f17ca8",
+        "g": "3e80f3ea8716bc5c",
+        "name": "Entrée GPS",
+        "url": "/position",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "json_1",
+                "c870680d70e4dbf0"
+            ]
+        ]
+    },
+    {
+        "id": "json_1",
+        "type": "json",
+        "z": "f6f2187d.f17ca8",
+        "g": "3e80f3ea8716bc5c",
+        "name": "Parse JSON",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 340,
+        "y": 120,
+        "wires": [
+            [
+                "function_1",
+                "5dd32f6d870b5960"
+            ]
+        ]
+    },
+    {
+        "id": "function_1",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "g": "3e80f3ea8716bc5c",
+        "name": "Format pour Worldmap",
+        "func": "if (\n    msg.payload &&\n    msg.payload.location &&\n    msg.payload.location.coords &&\n    typeof msg.payload.location.coords.latitude === \"number\" &&\n    typeof msg.payload.location.coords.longitude === \"number\"\n) {\n    msg.payload = {\n        name: msg.payload.device_id || \"Raphaël\",\n        lat: msg.payload.location.coords.latitude,\n        lon: msg.payload.location.coords.longitude\n    };\n    return msg;\n} else {\n    node.warn(\"Coordonnées GPS manquantes\");\n    return null;\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 120,
+        "wires": [
+            [
+                "worldmap_1",
+                "http_response_1",
+                "357a56bf21832267"
+            ]
+        ]
+    },
+    {
+        "id": "worldmap_1",
+        "type": "worldmap",
+        "z": "f6f2187d.f17ca8",
+        "g": "3e80f3ea8716bc5c",
+        "name": "Carte",
+        "lat": "",
+        "lon": "",
+        "zoom": "15",
+        "layer": "OSMC",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "panit": "true",
+        "hiderightclick": "false",
+        "coords": "deg",
+        "showruler": "true",
+        "allowFileDrop": "true",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,EsriT,EsriO,EsriDG,NatGeo,UKOS,OpTop",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 790,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "http_response_1",
+        "type": "http response",
+        "z": "f6f2187d.f17ca8",
+        "g": "3e80f3ea8716bc5c",
+        "name": "OK",
+        "statusCode": "",
+        "headers": {},
+        "x": 790,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "357a56bf21832267",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "3e80f3ea8716bc5c",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5dd32f6d870b5960",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "3e80f3ea8716bc5c",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "c870680d70e4dbf0",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "3e80f3ea8716bc5c",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "msg",
+        "x": 230,
+        "y": 260,
+        "wires": []
+    }
 ]
