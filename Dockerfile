@@ -2,7 +2,7 @@
 FROM nodered/node-red:4.0
 
 # Installer les modules nécessaires
-RUN npm install     node-red-dashboard     node-red-contrib-web-worldmap     jsonwebtoken
+RUN npm install     uibuilder     node-red-contrib-web-worldmap     jsonwebtoken
 
 # Copier les flows
 COPY flows.json /data/flows.json
